@@ -226,10 +226,6 @@ if __name__ == "__main__":
 	                          help="measurement name to store points, defaults to smartmeter", default="smartmeter")
 	influx_group.add_argument('influx_tags', metavar='tag ...', type=str, nargs='?', help='any tag to the measurement')
 
-	verbose_group = parser.add_mutually_exclusive_group()
-	verbose_group.add_argument("-v", "--verbose", action="store_true", dest="verbose", help="Be verbose")
-	verbose_group.add_argument("-q", "--quiet", action="store_true", dest="quiet", help="Be very quiet")
-
 	args = parser.parse_args()
 
 	start_monitor(args)
