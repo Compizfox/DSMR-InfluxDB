@@ -100,6 +100,18 @@ class P1Packet:
 		keys['+P'] = self.get_float(b'^1-0:1\.7\.0\(([0-9]+\.[0-9]+)\*kW\)\r\n')
 		keys['-P'] = self.get_float(b'^1-0:2\.7\.0\(([0-9]+\.[0-9]+)\*kW\)\r\n')
 
+		keys['V_1'] = self.get_float(b'^1-0:32\.7\.0\(([0-9]+\.[0-9]+)\*V\)\r\n')
+		keys['V_2'] = self.get_float(b'^1-0:52\.7\.0\(([0-9]+\.[0-9]+)\*V\)\r\n')
+		keys['V_3'] = self.get_float(b'^1-0:72\.7\.0\(([0-9]+\.[0-9]+)\*V\)\r\n')
+
+		keys['+P_1'] = self.get_float(b'^1-0:21\.7\.0\(([0-9]+\.[0-9]+)\*kW\)\r\n')
+		keys['+P_2'] = self.get_float(b'^1-0:41\.7\.0\(([0-9]+\.[0-9]+)\*kW\)\r\n')
+		keys['+P_3'] = self.get_float(b'^1-0:61\.7\.0\(([0-9]+\.[0-9]+)\*kW\)\r\n')
+
+		keys['-P_1'] = self.get_float(b'^1-0:22\.7\.0\(([0-9]+\.[0-9]+)\*kW\)\r\n')
+		keys['-P_2'] = self.get_float(b'^1-0:42\.7\.0\(([0-9]+\.[0-9]+)\*kW\)\r\n')
+		keys['-P_3'] = self.get_float(b'^1-0:62\.7\.0\(([0-9]+\.[0-9]+)\*kW\)\r\n')
+
 		keys['+T'] = keys['+T1'] + keys['+T2']
 		keys['-T'] = keys['-T1'] + keys['-T2']
 		keys['P'] = keys['+P'] - keys['-P']
