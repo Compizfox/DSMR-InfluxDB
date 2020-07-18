@@ -178,7 +178,8 @@ def send_to_influxdb(options, fields):
 	reqs.append(req)
 
 	client = InfluxDBClient(options.influx_hostname, options.influx_port, options.influx_username,
-	                        options.influx_password, options.influx_database)
+	                        options.influx_password, options.influx_database, ssl=options.influx_ssl, verify_ssl=True,
+	                        path=options.influx_path)
 	client.write_points(reqs, retention_policy=options.influx_retention_policy, database=options.influx_database)
 
 
@@ -216,6 +217,10 @@ if __name__ == "__main__":
 	                          help="database name to connect to, defaults to 'p1smartmeter'", default="p1smartmeter")
 	influx_group.add_argument("--influx-retention-policy", metavar='policy', dest="influx_retention_policy",
 	                          help="retention policy to use")
+	influx_group.add_argument("--influx-path", metavar='path', dest="influx_path", help="Path on server to use",
+	                          default='')
+	influx_group.add_argument("--influx-ssl", dest="influx_ssl", action='store_true',
+	                          help="Use SSL to connect to InfluxDB")
 
 	influx_group.add_argument("--influx-measurement", metavar='measurement', dest="influx_measurement",
 	                          help="measurement name to store points, defaults to smartmeter", default="smartmeter")
