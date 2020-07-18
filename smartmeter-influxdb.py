@@ -1,19 +1,20 @@
-'''
+"""
 smartmeter -- Send P1 telegram to an InfluxDB API.
 
 Credits for the meter reading part (+ parsing and CRC) go to https://github.com/nrocco/smeterd
-'''
+"""
 
-import decimal
 import re
-import serial
+from argparse import ArgumentParser
+
 import crcmod.predefined
+import serial
+from influxdb import InfluxDBClient
 
 crc16 = crcmod.predefined.mkPredefinedCrcFun('crc16')
 
 
-class SmartMeter(object):
-
+class SmartMeter:
 	def __init__(self, port, *args, **kwargs):
 		try:
 			self.serial = serial.Serial(
@@ -67,7 +68,7 @@ class SmartMeter(object):
 			else:
 				datagram = datagram + line
 
-			# TODO: build in some protection for infinite loops
+		# TODO: build in some protection for infinite loops
 
 		return P1Packet(datagram)
 
@@ -80,7 +81,7 @@ class P1PacketError(Exception):
 	pass
 
 
-class P1Packet(object):
+class P1Packet:
 	_datagram = ''
 
 	def __init__(self, datagram):
@@ -146,8 +147,6 @@ class P1Packet(object):
 
 
 def send_to_influxdb(options, fields):
-	from influxdb import InfluxDBClient
-
 	req = {
 		"measurement": options.influx_measurement,
 		"tags"       : {},
@@ -159,7 +158,7 @@ def send_to_influxdb(options, fields):
 			tag_kv = tag.split('=')
 			req['tags'][tag_kv[0]] = tag_kv[1]
 
-	for field_k, field_v in fields.iteritems():
+	for field_k, field_v in fields.items():
 		if field_v is not None:
 			req['fields'][field_k] = field_v
 
@@ -184,9 +183,7 @@ def start_monitor(options):
 		meter.disconnect()
 
 
-def main(argv=None):
-	from argparse import ArgumentParser
-
+if __name__ == "__main__":
 	parser = ArgumentParser(description="Send P1 telegrams to an InfluxDB API")
 
 	parser.add_argument("-d", "--device", dest="device", help="serial port to read datagrams from",
@@ -219,9 +216,3 @@ def main(argv=None):
 	args = parser.parse_args()
 
 	start_monitor(args)
-
-
-if __name__ == "__main__":
-	import sys
-
-	sys.exit(main())
