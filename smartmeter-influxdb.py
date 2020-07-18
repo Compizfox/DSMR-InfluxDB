@@ -116,7 +116,7 @@ class P1Packet:
 		keys['-T'] = keys['-T1'] + keys['-T2']
 		keys['P'] = keys['+P'] - keys['-P']
 
-		keys['G'] = self.get_float(b'^(?:0-1:24\.2\.1(?:\(\d+[SW]\))?)?\(([0-9]{5}\.[0-9]{3})(?:\*m3)?\)\r\n', 0)
+		keys['G'] = self.get_float(b'^(?:0-1:24\.2\.1(?:\(\d+[SW]\))?)?\(([0-9]{6}\.[0-9]{2})(?:\*m3)?\)\r\n', 0)
 
 		self._keys = keys
 
